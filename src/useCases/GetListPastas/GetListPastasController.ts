@@ -7,7 +7,18 @@ export class GetListPastasController {
         private GetListPastasCase: GetListPastasCase,
     ) { }
 
-    async handle(request: Request, response: Response): Promise<Response> {
+    async get(request: Request, response: Response): Promise<Response> {
+        try {
+            var data: Pasta[] = await this.GetListPastasCase.queryAll()
+            return response.json(data);
+        } catch (err) {
+            return response.status(400).json({
+                message: err.message || 'Unexpected error.'
+            })
+        }
+    }
+    
+    async getAll(request: Request, response: Response): Promise<Response> {
         try {
             var data: Pasta[] = await this.GetListPastasCase.queryAll()
             return response.json(data);
